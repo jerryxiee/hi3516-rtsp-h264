@@ -602,6 +602,12 @@ HI_VOID SAMPLE_COMM_VDEC_StartGetPic(HI_S32 s32ChnNum, VDEC_THREAD_PARAM_S *pstV
 HI_VOID SAMPLE_COMM_VDEC_StopGetPic(HI_S32 s32ChnNum, VDEC_THREAD_PARAM_S *pstVdecGet, pthread_t *pVdecThread);
 HI_S32 SAMPLE_COMM_VDEC_Start(HI_S32 s32ChnNum, SAMPLE_VDEC_ATTR *pastSampleVdec);
 HI_S32 SAMPLE_COMM_VDEC_Stop(HI_S32 s32ChnNum);
+
+HI_S32 SAMPLE_VENC_Init(PIC_SIZE_E enSize[], HI_U32 uChnNum);
+HI_VOID SAMPLE_VENC_DeInit();
+
+HI_S32 SAMPLE_VENC_PeekStream(VENC_CHN vencChn, VENC_STREAM_S *pstStream);
+HI_S32 SAMPLE_VENC_ReleaseStream(VENC_CHN vencChn, VENC_STREAM_S *pstStream);
 #ifdef __cplusplus
 #if __cplusplus
 }

@@ -30,14 +30,16 @@ extern int g_s32Quit ;
 **
 **
 **************************************************************************************************/
-extern void *SAMPLE_VENC_H265_H264(void *p);
 
-#define SV_CHANNEL_NUM      3
+//#define DEBUG_HIVENC
+#ifdef DEBUG_HIVENC
+
+#define SV_CHANNEL_NUM      2
 
 void *SAMPLE_VENC_PROC(void *p) {
     HI_S32          s32Ret;
     VENC_CHN        VencChn[VPSS_MAX_PHY_CHN_NUM];
-    PIC_SIZE_E      enSize[SV_CHANNEL_NUM] = {PIC_1080P, PIC_720P, PIC_360P};
+    PIC_SIZE_E      enSize[SV_CHANNEL_NUM] = {PIC_720P, PIC_360P};
     VENC_STREAM_S   stStream;
     HI_U32          u32rameSize = 0;
 
@@ -78,6 +80,9 @@ void *SAMPLE_VENC_PROC(void *p) {
 
     return (void *)HI_SUCCESS;
 }
+#else
+extern void *SAMPLE_VENC_H265_H264(void *p);
+#endif
 
 int main(void) {
     int s32MainFd,temp;
@@ -97,7 +102,11 @@ int main(void) {
     }
     RTP_port_pool_init(RTP_DEFAULT_PORT);
 
+#ifdef DEBUG_HIVENC
     pthread_create(&id, NULL, SAMPLE_VENC_PROC, NULL);
+#else
+    pthread_create(&id, NULL, SAMPLE_VENC_H265_H264, NULL);
+#endif    
     pthread_detach(id);
 
     while (!g_s32Quit) {
